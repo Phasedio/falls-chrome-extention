@@ -8,6 +8,19 @@
 </head>
 <body>
   <h1 id="yo"></h1>
+  <form action="">
+    <label for="">
+      email
+    </label>
+    <input id="txtEmail" type="email" placeholder="email">
+    <label for="">
+      password
+    </label>
+    <input id="txtPassword" type="password" name="" id="">
+    <button id="btnLogin" type="button" name="button">Login</button>
+    <button id="btnReg" type="button" name="button">Register</button>
+    <button id="btnLogout" type="button" name="button" class="hide">Logout</button>
+  </form>
 
   <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
   <script>
@@ -21,9 +34,50 @@
       messagingSenderId: "636600715379"
     };
     firebase.initializeApp(config);
-    var h1 = document.getElementById('yo');
-    var dbRef = firebase.database().ref().child("text");
-    dbRef.on('value', snap=> h1.innerText = snap.val());
+    // var h1 = document.getElementById('yo');
+    // var dbRef = firebase.database().ref().child("text");
+    // dbRef.on('value', snap=> h1.innerText = snap.val());
+
+    const txtEmail = document.getElementById('txtEmail');
+    const txtPassword = document.getElementById('txtPassword');
+    const btnLogin = document.getElementById('btnLogin');
+    const btnReg = document.getElementById('btnReg');
+    const btnLogout = document.getElementById('btnLogout');
+
+    // login
+    btnLogin.addEventListener('click', e =>{
+      const email = txtEmail.value;
+      const password = txtPassword.value;
+      const auth = firebase.auth();
+      const promise = auth.signInWithEmailAndPassword(email,password);
+      promise.catch(e=> console.log(e.message));
+    });
+    // Register
+    btnLogout.addEventListener('click', e =>{
+      //TODO: Check for real email
+      firebase.auth().signOut();
+    });
+
+    btnReg.addEventListener('click', e =>{
+      //TODO: Check for real email
+      const email = txtEmail.value;
+      const password = txtPassword.value;
+      const auth = firebase.auth();
+      const promise = auth.createUserWithEmailAndPassword(email,password);
+      promise.catch(e=> console.log(e.message));
+    });
+    // Real time listener
+    firebase.auth().onAuthStateChanged(firebaseUser =>{
+      if(firebaseUser){
+        console.log(firebaseUser);
+        btnLogout.classList.remove('hide');
+      }else{
+        console.log("not logged in ");
+        btnLogout.classList.add('hide');
+      }
+    })
+
+
   </script>
 
 </body>
