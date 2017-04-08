@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h1 id="yo"></h1>
+
+  <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBiwPHCVhIcWY24TaHUHKubLC5XCKGhMYw",
+      authDomain: "falls-b97fb.firebaseapp.com",
+      databaseURL: "https://falls-b97fb.firebaseio.com",
+      projectId: "falls-b97fb",
+      storageBucket: "falls-b97fb.appspot.com",
+      messagingSenderId: "636600715379"
+    };
+    firebase.initializeApp(config);
+    var h1 = document.getElementById('yo');
+    var dbRef = firebase.database().ref().child("text");
+    dbRef.on('value', snap=> h1.innerText = snap.val());
+  </script>
+
+</body>
+</html>
